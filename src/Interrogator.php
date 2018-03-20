@@ -40,11 +40,23 @@ class Interrogator
         return $this;
     }
 
-    public function get()
+    public function query()
     {
         $this->interrogate();
 
-        return $this->builder->get();
+        return $this->builder;
+    }
+
+    public function paginate()
+    {
+        return $this->query()->paginate();
+    }
+
+    public function get()
+    {
+        $builder = $this->query();
+
+        return $builder->get();
     }
 
     private function interrogate()
