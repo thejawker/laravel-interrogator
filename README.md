@@ -19,7 +19,7 @@ composer require thejawker/laravel-interrogator
 You can `interrogate()` any Laravel Model in a Controller. Basic setup is easy peasy but does not provide proper security.
 Security can be added where needed.
 
-```
+```php
 // App/Http/Controllers/UserController.php
 
 // GET: /users?filters[name]=john*&sort=-name
