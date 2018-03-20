@@ -5,30 +5,44 @@ namespace TheJawker\Interrogator\Filter;
 class Delegator
 {
     /**
+     * Holds a list of available Filters
+     *
      * @var FilterInterface[]
      */
-    private $handlers = [];
+    private $filters = [];
 
     /**
      * Delegator constructor.
      *
-     * @param FilterInterface[] $handlers
+     * @param FilterInterface[] $filters
      */
-    public function __construct(array $handlers)
+    public function __construct(array $filters)
     {
-        $this->handlers = $handlers;
+        $this->filters = $filters;
     }
 
-    public static function make(array $handlers)
+    /**
+     * Makes a Delegator.
+     *
+     * @param FilterInterface[] $filters
+     * @return Delegator
+     */
+    public static function make(array $filters)
     {
-        return new self($handlers);
+        return new self($filters);
     }
 
+    /**
+     * Iterates over the Filters and runs the first applicable Filter.
+     *
+     * @param string $column
+     * @param string $value
+     */
     public function execute(string $column, string $value)
     {
-        foreach ($this->handlers as $handler) {
-            if ($handler->isApplicable($value)) {
-                $handler->apply($column, $value);
+        foreach ($this->filters as $filter) {
+            if ($filter->isApplicable($value)) {
+                $filter->apply($column, $value);
                 break;
             }
         }

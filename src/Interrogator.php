@@ -175,7 +175,7 @@ class Interrogator
      * @param $column
      * @param $value
      */
-    private function filterColumn($column, $value)
+    private function filterColumn(string $column, string $value)
     {
         Delegator::make([
             new ListFilter($this->builder),
@@ -188,9 +188,9 @@ class Interrogator
     /**
      * Guards non-allowed filters.
      *
-     * @param $column
+     * @param string $column
      */
-    private function guardFilter($column)
+    private function guardFilter(string $column)
     {
         if ($this->allowFilters && !in_array($column, $this->allowFilters)) {
             abort(400);
@@ -200,9 +200,9 @@ class Interrogator
     /**
      * Guards non-allowed sorting.
      *
-     * @param $sortBy
+     * @param string $sortBy
      */
-    private function guardSorting($sortBy)
+    private function guardSorting(string $sortBy)
     {
         if (!$this->allowSortBy) {
             return;
