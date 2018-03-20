@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="/Users/bramveerman/Dev/laravel-interrogator/tests" tests="7" assertions="9" errors="0" failures="0" skipped="0" time="0.178296">
-    <testsuite name="TheJawker\Interrogator\Test\FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" tests="4" assertions="6" errors="0" failures="0" skipped="0" time="0.143477">
-      <testcase name="a_filter_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="14" assertions="2" time="0.115948"/>
-      <testcase name="wild_cards_can_be_used_in_querying" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="29" assertions="2" time="0.009279"/>
-      <testcase name="multiple_filters_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="44" assertions="1" time="0.008247"/>
-      <testcase name="filters_can_be_allowed" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="61" assertions="1" time="0.010003"/>
+  <testsuite name="/Users/bramveerman/Dev/laravel-interrogator/tests" tests="9" assertions="14" errors="0" failures="0" skipped="0" time="0.282245">
+    <testsuite name="TheJawker\Interrogator\Test\FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" tests="6" assertions="11" errors="0" failures="0" skipped="0" time="0.248903">
+      <testcase name="a_filter_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="14" assertions="2" time="0.195065"/>
+      <testcase name="wild_cards_can_be_used_in_querying" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="29" assertions="2" time="0.011084"/>
+      <testcase name="multiple_filters_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="44" assertions="1" time="0.008826"/>
+      <testcase name="filters_can_be_allowed" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="61" assertions="1" time="0.012032"/>
+      <testcase name="a_list_of_values_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="79" assertions="1" time="0.011400"/>
+      <testcase name="explicit_math_operators_can_be_used" class="TheJawker\Interrogator\Test\FilterTest" classname="TheJawker.Interrogator.Test.FilterTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/FilterTest.php" line="93" assertions="4" time="0.010496"/>
     </testsuite>
-    <testsuite name="TheJawker\Interrogator\Test\SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" tests="3" assertions="3" errors="0" failures="0" skipped="0" time="0.034819">
-      <testcase name="results_can_be_ordered_by_a_field" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="15" assertions="1" time="0.010791"/>
-      <testcase name="results_can_be_ordered_descending" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="29" assertions="1" time="0.011212"/>
-      <testcase name="specific_sort_types_can_be_allowed" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="43" assertions="1" time="0.012816"/>
+    <testsuite name="TheJawker\Interrogator\Test\SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" tests="3" assertions="3" errors="0" failures="0" skipped="0" time="0.033342">
+      <testcase name="results_can_be_ordered_by_a_field" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="15" assertions="1" time="0.011889"/>
+      <testcase name="results_can_be_ordered_descending" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="29" assertions="1" time="0.011866"/>
+      <testcase name="specific_sort_types_can_be_allowed" class="TheJawker\Interrogator\Test\SortingTest" classname="TheJawker.Interrogator.Test.SortingTest" file="/Users/bramveerman/Dev/laravel-interrogator/tests/SortingTest.php" line="43" assertions="1" time="0.009587"/>
     </testsuite>
   </testsuite>
 </testsuites>

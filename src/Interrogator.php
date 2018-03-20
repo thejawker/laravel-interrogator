@@ -2,64 +2,111 @@
 
 namespace TheJawker\Interrogator;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use TheJawker\Interrogator\Filter\Delegator;
+use TheJawker\Interrogator\Filter\ListFilter;
+use TheJawker\Interrogator\Filter\EqualsFilter;
+use TheJawker\Interrogator\Filter\WildcardFilter;
+use TheJawker\Interrogator\Filter\ComparisonFilter;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class Interrogator
 {
     /**
+     * The Builder to Interrogate.
+     *
      * @var Builder
      */
     private $builder;
 
     /**
+     * The request to use.
+     *
      * @var Request
      */
     private $request;
 
     /**
+     * Values that are allowed for sorting.
+     *
+     * Allows everything by default.
+     *
      * @var array
      */
     private $allowSortBy;
 
     /**
+     * Values that are allowed for filtering.
+     *
+     * Allows everything by default.
+     *
      * @var array
      */
     private $allowFilters;
 
+    /**
+     * Instantiates a new Interrogator.
+     *
+     * @param Builder $builder
+     */
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
         $this->request = request();
     }
 
-    public function request(Request $request)
+    /**
+     * Sets an alternative Request.
+     *
+     * @param Request $request
+     * @return $this
+     */
+    public function request(Request $request): self
     {
         $this->request = $request;
 
         return $this;
     }
 
-    public function query()
+    /**
+     * Gets the instance of the Query Builder.
+     *
+     * @return Builder
+     */
+    public function query(): Builder
     {
         $this->interrogate();
 
         return $this->builder;
     }
 
-    public function paginate()
+    /**
+     * Helper method to directly get Laravel's Paginator.
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate(): LengthAwarePaginator
     {
         return $this->query()->paginate();
     }
 
-    public function get()
+    /**
+     * Helper function to get the Eloquent Collection on the QueryBuilder.
+     *
+     * @return Collection|static[]
+     */
+    public function get(): Collection
     {
         $builder = $this->query();
 
         return $builder->get();
     }
 
+    /**
+     * Interrogates the different sections.
+     */
     private function interrogate()
     {
         if ($this->request->exists('filter')) {
@@ -70,13 +117,25 @@ class Interrogator
         }
     }
 
-    public function allowSortBy($values)
+    /**
+     * These columns are allowed for Sorting.
+     *
+     * @param $values
+     * @return $this
+     */
+    public function allowSortBy($values): self
     {
         $this->allowSortBy = $values;
 
         return $this;
     }
 
+    /**
+     * These columns are allowed for Filtering.
+     *
+     * @param $filters
+     * @return $this
+     */
     public function allowFilters($filters)
     {
         $this->allowFilters = $filters;
@@ -84,39 +143,70 @@ class Interrogator
         return $this;
     }
 
+    /**
+     * Sorts the Query Builder.
+     */
     private function sort()
     {
         $sortRaw = $this->request->get('sort');
 
-        $ascending = !Str::startsWith($sortRaw, '-');
-        $sortBy = Str::after($sortRaw, '-');
+        $direction = starts_with($sortRaw, '-') ? 'DESC' : 'ASC';
+        $sortBy = str_after($sortRaw, '-');
 
-        if ($this->allowSortBy) {
-            abort_unless(in_array($sortBy, $this->allowSortBy), 400);
-        }
+        $this->guardSorting($sortBy);
 
-        return $ascending ?
-            $this->builder->orderBy($sortBy) :
-            $this->builder->orderByDesc($sortBy);
+        $this->builder->orderBy($sortBy, $direction);
     }
 
+    /**
+     * Filters the Query Builder.
+     */
     private function filter()
     {
         collect($this->request->get('filter', []))->each(function ($value, $column) {
-            if ($this->allowFilters && !in_array($column, $this->allowFilters)) {
-                abort(400);
-            }
-
+            $this->guardFilter($column);
             $this->filterColumn($column, $value);
         });
     }
 
+    /**
+     * Applies one of the matching Filters.
+     *
+     * @param $column
+     * @param $value
+     */
     private function filterColumn($column, $value)
     {
-        if (str_contains($value, '*')) {
-            return $this->builder->orWhere($column, 'like', str_replace('*', '%', $value));
-        }
+        Delegator::make([
+            new ListFilter($this->builder),
+            new WildcardFilter($this->builder),
+            new ComparisonFilter($this->builder),
+            new EqualsFilter($this->builder),
+        ])->execute($column, $value);
+    }
 
-        return $this->builder->orWhere($column, $value);
+    /**
+     * Guards non-allowed filters.
+     *
+     * @param $column
+     */
+    private function guardFilter($column)
+    {
+        if ($this->allowFilters && !in_array($column, $this->allowFilters)) {
+            abort(400);
+        }
+    }
+
+    /**
+     * Guards non-allowed sorting.
+     *
+     * @param $sortBy
+     */
+    private function guardSorting($sortBy)
+    {
+        if (!$this->allowSortBy) {
+            return;
+        }
+        abort_unless(in_array($sortBy, $this->allowSortBy), 400);
     }
 }

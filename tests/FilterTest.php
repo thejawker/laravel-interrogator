@@ -74,20 +74,48 @@ class FilterTest extends TestCase
         $this->assertCount(1, $users);
         $this->assertEquals('Zara Gulf', $users->first()->name);
     }
+    
+    /** @test */
+    public function a_list_of_values_can_be_used()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilter('id', '1,2');
+
+        $users = interrogate(User::query())
+            ->request($request)
+            ->get();
+
+        $this->assertCount(2, $users);
+    }
+    
+    /** @test */
+    public function explicit_math_operators_can_be_used()
+    {
+        $this->createUsers();
+
+        $this->assertCount(2, interrogate(User::query())->request($this->setFilter('value', '[ge]50'))->get());
+        $this->assertCount(1, interrogate(User::query())->request($this->setFilter('value', '[gt]50'))->get());
+        $this->assertCount(2, interrogate(User::query())->request($this->setFilter('value', '[le]50'))->get());
+        $this->assertCount(1, interrogate(User::query())->request($this->setFilter('value', '[lt]50'))->get());
+    }
 
     private function createUsers()
     {
         UserFactory::create([
             'name' => 'Aaron Fritsen',
-            'email' => 'z@z.com'
+            'email' => 'z@z.com',
+            'value' => 25
         ]);
         UserFactory::create([
             'name' => 'Piet Jensson',
-            'email' => 'g@g.com'
+            'email' => 'g@g.com',
+            'value' => 50
         ]);
         UserFactory::create([
             'name' => 'Zara Gulf',
-            'email' => 'a@a.com'
+            'email' => 'a@a.com',
+            'value' => 100
         ]);
     }
 

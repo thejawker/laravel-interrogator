@@ -74,11 +74,13 @@ class SortingTest extends TestCase
     {
         UserFactory::create([
             'name' => 'A',
-            'email' => 'z@z.com'
+            'email' => 'z@z.com',
+            'value' => 50
         ]);
         UserFactory::create([
             'name' => 'Z',
-            'email' => 'a@a.com'
+            'email' => 'a@a.com',
+            'value' => 50
         ]);
     }
 }
