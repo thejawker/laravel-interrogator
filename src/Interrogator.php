@@ -31,6 +31,7 @@ class Interrogator
     public function __construct(Builder $builder)
     {
         $this->builder = $builder;
+        $this->request = request();
     }
 
     public function request(Request $request)
