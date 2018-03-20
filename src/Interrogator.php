@@ -62,8 +62,12 @@ class Interrogator
 
     private function interrogate()
     {
-        $this->filter();
-        $this->sort();
+        if ($this->request->exists('filter')) {
+            $this->filter();
+        }
+        if ($this->request->exists('sort')) {
+            $this->sort();
+        }
     }
 
     public function allowSortBy($values)
