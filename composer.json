@@ -1,0 +1,48 @@
+{
+  "name": "thejawker/laravel-interrogator",
+  "description": "Interrogates the request and applies JSON API rules to the Laravel Query Builder.",
+  "keywords": [
+    "thejawker",
+    "interrogator",
+    "laravel-interrogator",
+    "JSON API Laravel Query Builder"
+  ],
+  "homepage": "https://github.com/thejawker/laravel-interrogator",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bram Veerman",
+      "email": "bram.veerman@gmail.com",
+      "homepage": "https://github.com/thejawker",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "mockery/mockery": "^0.9.5",
+    "orchestra/database": "~3.5.0",
+    "orchestra/testbench": "~3.5.0",
+    "phpunit/phpunit": "^6.0|^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "TheJawker\\Interrogator\\": "src"
+    },
+    "files": [
+      "helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TheJawker\\Interrogator\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
