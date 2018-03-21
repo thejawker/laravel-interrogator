@@ -112,8 +112,13 @@ class Interrogator
         if ($this->request->exists('filter')) {
             $this->filter();
         }
+
         if ($this->request->exists('sort')) {
             $this->sort();
+        }
+
+        if ($this->request->exists('fields')) {
+            $this->selectFields();
         }
     }
 
@@ -241,5 +246,16 @@ class Interrogator
             return;
         }
         abort_unless(in_array($sortBy, $this->allowSortBy), 400);
+    }
+
+    /**
+     * Selects specific fields on the Retrieving query.
+     */
+    private function selectFields()
+    {
+        collect($this->request->get('fields', []))->each(function($expression, $key) {
+            $fields = explode(',', $expression);
+            $this->builder->select($fields);
+        });
     }
 }
