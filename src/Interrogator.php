@@ -178,25 +178,28 @@ class Interrogator
      */
     private function filter()
     {
-        collect($this->request->get('filter', []))->each(function ($value, $column) {
-            $this->guardFilter($column);
-            $this->filterColumn($column, $value);
+        $this->builder->where(function ($builder) {
+            collect($this->request->get('filter', []))->each(function ($value, $column) use ($builder) {
+                $this->guardFilter($column);
+                $this->filterColumn($builder, $column, $value);
+            });
         });
     }
 
     /**
      * Applies one of the matching Filters.
      *
-     * @param $column
-     * @param $value
+     * @param Builder $builder
+     * @param string $column
+     * @param string $value
      */
-    private function filterColumn(string $column, string $value)
+    private function filterColumn(Builder $builder, string $column, string $value)
     {
         Delegator::make([
-            new ListFilter($this->builder),
-            new WildcardFilter($this->builder),
-            new ComparisonFilter($this->builder),
-            new EqualsFilter($this->builder),
+            new ListFilter($builder),
+            new WildcardFilter($builder),
+            new ComparisonFilter($builder),
+            new EqualsFilter($builder),
         ])->execute($column, $value);
     }
 

@@ -78,6 +78,19 @@ class FilterTest extends TestCase
     }
 
     /** @test */
+    public function where_clauses_are_nested_in_master_where()
+    {
+        UserFactory::create([])->posts()->createMany([
+            ['body' => 'aaaa'],
+            ['body' => 'bbbb'],
+        ]);
+
+        $request = $this->setFilter('body', 'aaaa');
+
+        $this->assertCount(1, interrogate(User::first()->posts())->request($request)->get());
+    }
+
+    /** @test */
     public function a_list_of_values_can_be_used()
     {
         $this->createUsers();
