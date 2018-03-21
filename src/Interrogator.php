@@ -19,7 +19,7 @@ class Interrogator
      *
      * @var Builder
      */
-    private $builder;
+    public $builder;
 
     /**
      * The request to use.
@@ -159,6 +159,21 @@ class Interrogator
     }
 
     /**
+     * Sets a default initial Sorting.
+     *
+     * @param string $column
+     * @return Interrogator
+     */
+    public function defaultSortBy(string $column): self
+    {
+        $this->request->query->add([
+            'sort' => $column
+        ]);
+
+        return $this;
+    }
+
+    /**
      * Filters the Query Builder.
      */
     private function filter()
@@ -183,6 +198,21 @@ class Interrogator
             new ComparisonFilter($this->builder),
             new EqualsFilter($this->builder),
         ])->execute($column, $value);
+    }
+
+    /**
+     * A list of default Filters can be added.
+     *
+     * @param array $filters
+     * @return Interrogator
+     */
+    public function defaultFilters(array $filters): self
+    {
+        $this->request->query->add([
+            'filter' => $filters
+        ]);
+
+        return $this;
     }
 
     /**

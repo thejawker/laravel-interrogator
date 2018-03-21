@@ -11,13 +11,14 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var MockInterface spy */
-    public $spy;
     public function setUp()
     {
         parent::setUp();
-        $this->spy = Mockery::spy();
+        $this->migrate();
+    }
 
+    private function migrate(): void
+    {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
@@ -25,13 +26,12 @@ abstract class TestCase extends Orchestra
             $table->integer('value');
             $table->timestamps();
         });
-    }
-    public function tearDown()
-    {
-        Mockery::close();
-    }
-    protected function getPackageProviders($app)
-    {
-//        return [RouteModuleMacroServiceProvider::class];
+
+        Schema::create('posts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id');
+            $table->string('body')->nullable();
+            $table->timestamps();
+        });
     }
 }

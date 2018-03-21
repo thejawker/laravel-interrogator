@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use TheJawker\Interrogator\Test\TestModels\User;
+use TheJawker\Interrogator\Test\TestModels\UserFactory;
 
 class SortingTest extends TestCase
 {
@@ -52,6 +54,18 @@ class SortingTest extends TestCase
             ->request($request)
             ->allowSortBy(['email'])
             ->get();
+    }
+    
+    /** @test */
+    public function default_sorting_can_be_defined()
+    {
+        $this->createUsers();
+
+        $users = interrogate(User::query())
+            ->defaultSortBy('-email')
+            ->get();
+
+        $this->assertSort($users, 'email', 'desc');
     }
 
     private function assertSort(Collection $collection, $key, $order = 'asc')
