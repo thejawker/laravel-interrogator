@@ -25,7 +25,7 @@ Security can be added where needed.
 // GET: /users?filters[name]=john*&sort=-name
 // Returns the Users where the name starts with John and is sorted DESC by name. 
 public function get() {
-    return interrogate(User::builder)->get();
+    return interrogate(User::class)->get();
 }
 
 ```
