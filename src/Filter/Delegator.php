@@ -42,7 +42,8 @@ class Delegator
     {
         foreach ($this->filters as $filter) {
             if ($filter->isApplicable($value)) {
-                $filter->apply($column, $value);
+                $filter->prepare($column, $value);
+//                $filter->apply($column, $value);
                 break;
             }
         }

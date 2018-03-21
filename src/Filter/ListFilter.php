@@ -25,6 +25,6 @@ class ListFilter
     public function apply(string $column, string $expression)
     {
         $values = explode(',', $expression);
-        $this->builder->orWhereIn($column, $values);
+        $this->whereIn($column, $values);
     }
 }

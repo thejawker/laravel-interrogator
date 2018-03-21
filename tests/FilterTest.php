@@ -43,7 +43,7 @@ class FilterTest extends TestCase
     }
 
     /** @test */
-    public function multiple_filters_can_be_used()
+    public function multiple_filters_default_to_or_operator()
     {
         $this->createUsers();
 
@@ -57,6 +57,40 @@ class FilterTest extends TestCase
             ->get();
 
         $this->assertCount(2, $users);
+    }
+
+    /** @test */
+    public function an_or_where_can_be_specified()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'name' => 'Zara Gulf',
+            'email' => '[or]g@*',
+        ]);
+
+        $users = interrogate(User::query())
+            ->request($request)
+            ->get();
+
+        $this->assertCount(2, $users);
+    }
+
+    /** @test */
+    public function an_and_where_can_be_specified()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'name' => 'John Thombson',
+            'value' => '[and][ge]100',
+        ]);
+
+        $users = interrogate(User::query())
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
     }
 
     /** @test */
@@ -109,8 +143,8 @@ class FilterTest extends TestCase
     {
         $this->createUsers();
 
-        $this->assertCount(2, interrogate(User::query())->request($this->setFilter('value', '[ge]50'))->get());
-        $this->assertCount(1, interrogate(User::query())->request($this->setFilter('value', '[gt]50'))->get());
+        $this->assertCount(3, interrogate(User::query())->request($this->setFilter('value', '[ge]50'))->get());
+        $this->assertCount(2, interrogate(User::query())->request($this->setFilter('value', '[gt]50'))->get());
         $this->assertCount(2, interrogate(User::query())->request($this->setFilter('value', '[le]50'))->get());
         $this->assertCount(1, interrogate(User::query())->request($this->setFilter('value', '[lt]50'))->get());
     }
@@ -145,6 +179,11 @@ class FilterTest extends TestCase
         UserFactory::create([
             'name' => 'Zara Gulf',
             'email' => 'a@a.com',
+            'value' => 100
+        ]);
+        UserFactory::create([
+            'name' => 'John Thombson',
+            'email' => 'e@e.com',
             'value' => 100
         ]);
     }

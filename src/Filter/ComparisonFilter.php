@@ -38,7 +38,7 @@ class ComparisonFilter
     {
         [$operator, $value] = $this->match($expression);
 
-        $this->builder->orWhere($column, $this->operators[$operator], $value);
+        $this->where($column, $this->operators[$operator], $value);
     }
 
     /**

@@ -24,6 +24,6 @@ class EqualsFilter
      */
     public function apply(string $column, string $expression)
     {
-        $this->builder->orWhere($column, $expression);
+        $this->builder->where($column, $expression);
     }
 }
