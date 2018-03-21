@@ -187,6 +187,23 @@ class FilterTest extends TestCase
             'value' => 100
         ]);
     }
+    
+    /** @test */
+    public function null_filter_works_as_expected()
+    {
+        $this->createUsers();
+        UserFactory::create([
+            'name' => null
+        ]);
+
+        $request = $this->setFilter('name', '[null]');
+
+        $users = interrogate(User::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+    }
 
     private function setFilters($array)
     {

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use TheJawker\Interrogator\Filter\Delegator;
 use TheJawker\Interrogator\Filter\ListFilter;
 use TheJawker\Interrogator\Filter\EqualsFilter;
+use TheJawker\Interrogator\Filter\NullFilter;
 use TheJawker\Interrogator\Filter\WildcardFilter;
 use TheJawker\Interrogator\Filter\ComparisonFilter;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -204,6 +205,7 @@ class Interrogator
             new ListFilter($builder),
             new WildcardFilter($builder),
             new ComparisonFilter($builder),
+            new NullFilter($builder),
             new EqualsFilter($builder),
         ])->execute($column, $value);
     }
