@@ -76,7 +76,7 @@ It is possible to use a variety of different math operators in a filter.
 Of course you can combine this with the **And or Or** operator.
 
 
-### Default filters
+#### Default filters
 It is possible to conveniently set default filters on the Interrogator. These can be overriden by the api consumer (client).
 Under the hood it will set the filter to the request.
 ```php
@@ -93,7 +93,7 @@ interrogate(User::whereType('admin'))
 ```
 
 
-### Null Filter
+#### Null Filter
 Sometimes you need to make sure a column is null. You can for example do the following:
 ```http request
 GET http://example.com/api/users?filter[profile_image]=[null]
@@ -112,6 +112,76 @@ public function get() {
 ```
 
 >NOTE: nested filters are currently not supported.
+
+### Sorting
+Sorting works according to the JSON spec by using the `sort` parameter on the request with the column name as a value. 
+
+You can sort by **asc**:
+```http request
+GET http://example.com/api/users?sort=name
+```
+
+You can also sort by **descending** by adding a hyphen `-`:
+```http request
+GET http://example.com/api/users?sort=-name
+```
+
+#### Security
+Like filtering there's some security baked in to the package. You can allow certain sorting columns by adding `->allowSortBy(['email'])` onto the Interrogator.
+
+```php
+interrogate(User::query())
+    ->request($request)
+    ->allowSortBy(['email'])
+    ->get();   
+```
+
+#### Default sorting
+Also default sorting can be defined on the `Interrogator`. Like the filtering; this is added on the request.
+
+```php
+public function get() {
+    return interrogate(User::class)
+        ->defaultSortBy('-email')
+        ->get();
+}   
+```
+
+## Chain shortcuts
+You can keep chaining on with the Interrogator. `Pagination` and `get` are made shortcuts allowing you to do the following.
+```php
+// Gets all the results from the database. 
+interrogate(User::class)->get();
+
+// Paginates the results using the Laravel paginator.
+interrogate(User::class)->paginate(); 
+
+// Gets the query on the Interrogator, you are 
+// then free to work with it like expected.
+interrogate(User::class)->query()->take(2); 
+```
+
+## Your Life Made Easy
+The `interrogate()` helper function tries to make your life easier by allowing various types.
+We try to solve your intent when you enter one of the following types.
+
+```php
+// Illuminate\Database\Eloquent\Builder
+interrogate(User::query());
+
+// Illuminate\Database\Eloquent\Builder
+interrogate(User::whereAdmin(true));
+
+// Illuminate\Database\Eloquent\Relations\Relation;
+interrogate(User::first()->posts());
+
+// Class contstant
+interrogate(User::class);
+``` 
+
+## Alternatives
+For everything is a really nice [Spatie package](https://github.com/spatie/laravel-query-builder). 
+I needed to be able to do some math specific operations that were not supported in the mentioned package.
 
 ## Test
 
