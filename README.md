@@ -1,4 +1,4 @@
-# Interrogates the request and applies JSON API rules to the Laravel Query Builder.
+# Just Ask For What You Want
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/thejawker/laravel-interrogator.svg?style=flat-square)](https://packagist.org/packages/thejawker/laravel-interrogator)
