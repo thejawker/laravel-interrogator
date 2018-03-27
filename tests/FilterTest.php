@@ -164,6 +164,23 @@ class FilterTest extends TestCase
         $this->assertEquals('Piet Jensson', $users->first()->name);
     }
 
+    /** @test */
+    public function null_filter_works_as_expected()
+    {
+        $this->createUsers();
+        UserFactory::create([
+            'name' => null
+        ]);
+
+        $request = $this->setFilter('name', '[null]');
+
+        $users = interrogate(User::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+    }
+
     private function createUsers()
     {
         UserFactory::create([
@@ -186,23 +203,6 @@ class FilterTest extends TestCase
             'email' => 'e@e.com',
             'value' => 100
         ]);
-    }
-    
-    /** @test */
-    public function null_filter_works_as_expected()
-    {
-        $this->createUsers();
-        UserFactory::create([
-            'name' => null
-        ]);
-
-        $request = $this->setFilter('name', '[null]');
-
-        $users = interrogate(User::class)
-            ->request($request)
-            ->get();
-
-        $this->assertCount(1, $users);
     }
 
     private function setFilters($array)
