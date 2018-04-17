@@ -8,12 +8,11 @@ class WildcardFilter
     /**
      * Tests if the Wildcard Filter is Applicable.
      *
-     * @param string $expression
      * @return bool
      */
-    public function isApplicable(string $expression): bool
+    public function isApplicable(): bool
     {
-        return str_contains($expression, '*');
+        return str_contains($this->expression, '*');
     }
 
     /**

@@ -7,10 +7,16 @@ interface FilterInterface
     /**
      * Tests if the Filter is Applicable.
      *
-     * @param string $expression
      * @return bool
      */
-    public function isApplicable(string $expression): bool;
+    public function isApplicable(): bool;
+
+    /**
+     * Prepares the expression.
+     *
+     * @param string $expression
+     */
+    public function prepareExpression(string $expression);
 
     /**
      * Applies the Filter on the Query Builder.

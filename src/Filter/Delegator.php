@@ -41,9 +41,10 @@ class Delegator
     public function execute(string $column, string $value)
     {
         foreach ($this->filters as $filter) {
-            if ($filter->isApplicable($value)) {
+            $filter->prepareExpression($value);
+
+            if ($filter->isApplicable()) {
                 $filter->prepare($column, $value);
-//                $filter->apply($column, $value);
                 break;
             }
         }

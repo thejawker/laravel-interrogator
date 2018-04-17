@@ -8,12 +8,11 @@ class NullFilter
     /**
      * Tests if the List Filter is Applicable.
      *
-     * @param string $expression
      * @return bool
      */
-    public function isApplicable(string $expression): bool
+    public function isApplicable(): bool
     {
-        return $expression === '[null]';
+        return count($this->match($this->expression)) === 1;
     }
 
     /**
@@ -24,6 +23,19 @@ class NullFilter
      */
     public function apply(string $column, string $expression)
     {
-        $this->builder->whereNull($column, $this->boolean);
+        [$expression] = $this->match($expression);
+        $not = $expression === '!null';
+        $this->builder->whereNull($column, $this->boolean, $not);
+    }
+
+    private function match(string $expression): array
+    {
+        preg_match("/\[(null|!null)\]/", $expression, $matches);
+
+        if ($matches >= 2) {
+            return array_slice($matches, 1);
+        }
+
+        return [];
     }
 }

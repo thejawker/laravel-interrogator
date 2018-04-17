@@ -181,27 +181,71 @@ class FilterTest extends TestCase
         $this->assertCount(1, $users);
     }
 
+    /** @test */
+    public function null_can_be_used_in_combination_with_an_and_operator()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'value' => 100,
+            'verified_at' => '[and][null]'
+        ]);
+
+        $users = interrogate(User::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+        $user = $users->first();
+        $this->assertEquals(100, $user->value);
+        $this->assertEquals('John Thombson', $user->name);
+    }
+
+    /** @test */
+    public function can_also_do_not_null()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'value' => 100,
+            'verified_at' => '[and][!null]'
+        ]);
+
+        $users = interrogate(User::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+        $user = $users->first();
+        $this->assertEquals(100, $user->value);
+        $this->assertEquals('Zara Gulf', $user->name);
+    }
+
     private function createUsers()
     {
         UserFactory::create([
             'name' => 'Aaron Fritsen',
             'email' => 'z@z.com',
-            'value' => 25
+            'value' => 25,
+            'verified_at' => now()
         ]);
         UserFactory::create([
             'name' => 'Piet Jensson',
             'email' => 'g@g.com',
-            'value' => 50
+            'value' => 50,
+            'verified_at' => null
         ]);
         UserFactory::create([
             'name' => 'Zara Gulf',
             'email' => 'a@a.com',
-            'value' => 100
+            'value' => 100,
+            'verified_at' => now()
         ]);
         UserFactory::create([
             'name' => 'John Thombson',
             'email' => 'e@e.com',
-            'value' => 100
+            'value' => 100,
+            'verified_at' => null
         ]);
     }
 

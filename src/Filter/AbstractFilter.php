@@ -15,9 +15,18 @@ abstract class AbstractFilter
     protected $builder;
 
     /**
+     * The boolean for database selection.
+     *
      * @var string
      */
     protected $boolean = 'or';
+
+    /*
+     * The Expression.
+     *
+     * @var string
+     */
+    public $expression;
 
     /**
      * Instantiates the Filter.
@@ -29,14 +38,19 @@ abstract class AbstractFilter
         $this->builder = $builder;
     }
 
-    public function prepare(string $column, string $expression)
+    public function prepare(string $column)
+    {
+        $this->apply($column, $this->expression);
+    }
+
+    public function prepareExpression(string $expression)
     {
         if (preg_match("/\[(or|and)\](.*)/", $expression, $values)) {
             $this->boolean = $values[1];
-            $expression = $values[2];
+            $this->expression = $values[2];
+        } else {
+            $this->expression = $expression;
         }
-
-        $this->apply($column, $expression);
     }
 
     protected function where($column, $operator = null, $value = null)

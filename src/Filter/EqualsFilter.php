@@ -8,10 +8,9 @@ class EqualsFilter
     /**
      * Tests if the Equals Filter is Applicable.
      *
-     * @param string $expression
      * @return bool
      */
-    public function isApplicable(string $expression): bool
+    public function isApplicable(): bool
     {
         return true;
     }

@@ -20,12 +20,11 @@ class ComparisonFilter
     /**
      * Tests if the Comparison Filter is Applicable.
      *
-     * @param string $expression
      * @return bool
      */
-    public function isApplicable(string $expression): bool
+    public function isApplicable(): bool
     {
-        return count($this->match($expression)) === 2;
+        return count($this->match($this->expression)) === 2;
     }
 
     /**
