@@ -38,11 +38,21 @@ abstract class AbstractFilter
         $this->builder = $builder;
     }
 
-    public function prepare(string $column)
+    /**
+     * Prepares and applies the Expression.
+     *
+     * @param string $column
+     */
+    public function prepareAndApply(string $column)
     {
         $this->apply($column, $this->expression);
     }
 
+    /**
+     * Prepares the Expression. Checks for boolean types.
+     *
+     * @param string $expression
+     */
     public function prepareExpression(string $expression)
     {
         if (preg_match("/\[(or|and)\](.*)/", $expression, $values)) {
