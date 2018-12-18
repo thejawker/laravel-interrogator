@@ -5,6 +5,7 @@ namespace TheJawker\Interrogator\Test;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use TheJawker\Interrogator\Test\TestModels\Post;
 use TheJawker\Interrogator\Test\TestModels\User;
 use TheJawker\Interrogator\Test\TestModels\UserFactory;
 
@@ -66,7 +67,7 @@ class FilterTest extends TestCase
 
         $request = $this->setFilters([
             'name' => 'Zara Gulf',
-            'email' => '[or]g@*',
+            'email' => 'g@*',
         ]);
 
         $users = interrogate(User::query())
@@ -157,8 +158,7 @@ class FilterTest extends TestCase
         $users = interrogate(User::class)
             ->defaultFilters([
                 'email' => 'g@g.com'
-            ])
-            ->get();
+            ])->get();
 
         $this->assertCount(1, $users);
         $this->assertEquals('Piet Jensson', $users->first()->name);
@@ -221,6 +221,50 @@ class FilterTest extends TestCase
         $this->assertEquals('Zara Gulf', $user->name);
     }
 
+    /** @test */
+    public function search_filtering_can_be_done_on_relations()
+    {
+        $this->createPostWithUser();
+
+        $request = $this->setFilters([
+            'user.email' => 'z@z.com',
+        ]);
+
+        $posts = interrogate(Post::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $posts);
+    }
+
+    /** @test */
+    public function search_filtering_can_be_done_on_relations_with_other_operations()
+    {
+        $this->createPostWithUser();
+
+        $request = $this->setFilters([
+            'user.email' => 'z@z.com',
+            'body' => 'efghijk3',
+        ]);
+
+        $posts = interrogate(Post::class)
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $posts);
+    }
+
+    private function createPostWithUser()
+    {
+        $this->createUsers();
+        User::all()->each(function (User $user, $index) {
+            $user->posts()->create([
+                'body' => 'efghijk' . $index
+            ]);
+
+        });
+    }
+
     private function createUsers()
     {
         UserFactory::create([
@@ -249,14 +293,16 @@ class FilterTest extends TestCase
         ]);
     }
 
-    private function setFilters($array)
+    private
+    function setFilters($array)
     {
         return new Request([
             'filter' => $array
         ]);
     }
 
-    private function setFilter($key, $value)
+    private
+    function setFilter($key, $value)
     {
         return $this->setFilters([
             $key => $value

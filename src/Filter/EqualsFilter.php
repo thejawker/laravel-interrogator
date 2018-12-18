@@ -23,6 +23,6 @@ class EqualsFilter
      */
     public function apply(string $column, string $expression)
     {
-        $this->builder->where($column, $expression);
+        $this->where($column, $expression);
     }
 }

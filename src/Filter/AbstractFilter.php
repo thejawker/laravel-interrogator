@@ -29,6 +29,13 @@ abstract class AbstractFilter
     public $expression;
 
     /**
+     * The relation on wi
+     *
+     * @var string
+     */
+    public $nestedRelation;
+
+    /**
      * Instantiates the Filter.
      *
      * @param Builder $builder
@@ -65,7 +72,17 @@ abstract class AbstractFilter
 
     protected function where($column, $operator = null, $value = null)
     {
-        $this->builder->where($column, $operator, $value, $this->boolean);
+        if (str_contains($column, '.')) {
+            $relations = explode('.', $column);
+            $where = array_pop($relations);
+
+            $this->builder->orWhereHas(join('.', $relations), function (Builder $builder) use ($where, $operator, $value) {
+                // @todo: check the 'and', 'or' operators in the nested ones.
+                $builder->where($where, $operator, $value);
+            });
+        } else {
+            $this->builder->where($column, $operator, $value, $this->boolean);
+        }
     }
 
     protected function whereIn($column, $values)

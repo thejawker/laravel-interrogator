@@ -44,7 +44,7 @@ class Delegator
             $filter->prepareExpression($value);
 
             if ($filter->isApplicable()) {
-                $filter->prepare($column, $value);
+                $filter->apply($column, $value);
                 break;
             }
         }
