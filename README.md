@@ -2,9 +2,6 @@
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/thejawker/laravel-interrogator.svg?style=flat-square)](https://packagist.org/packages/thejawker/laravel-interrogator)
-[![Build Status](https://img.shields.io/travis/thejawker/laravel-interrogator/master.svg?style=flat-square)](https://travis-ci.org/thejawker/laravel-interrogator)
-[![Quality Score](https://img.shields.io/scrutinizer/g/thejawker/laravel-interrogator.svg?style=flat-square)](https://scrutinizer-ci.com/g/thejawker/laravel-interrogator)
-[![Total Downloads](https://img.shields.io/packagist/dt/thejawker/laravel-interrogator.svg?style=flat-square)](https://packagist.org/packages/thejawker/laravel-interrogator)
 
 ## Installation
 
