@@ -1,4 +1,4 @@
-# Just Ask For What You Want
+# Just Ask, And We'll Get It For You
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/thejawker/laravel-interrogator.svg?style=flat-square)](https://packagist.org/packages/thejawker/laravel-interrogator)
