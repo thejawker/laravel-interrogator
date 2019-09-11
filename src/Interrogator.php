@@ -2,6 +2,7 @@
 
 namespace TheJawker\Interrogator;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -156,8 +157,8 @@ class Interrogator
     {
         $sortRaw = $this->request->get('sort');
 
-        $direction = starts_with($sortRaw, '-') ? 'DESC' : 'ASC';
-        $sortBy = str_after($sortRaw, '-');
+        $direction = Str::startsWith($sortRaw, '-') ? 'DESC' : 'ASC';
+        $sortBy = Str::after($sortRaw, '-');
 
         $this->guardSorting($sortBy);
 
