@@ -2,6 +2,8 @@
 
 namespace TheJawker\Interrogator\Filter;
 
+use Illuminate\Support\Str;
+
 class WildcardFilter
     extends AbstractFilter
 {
@@ -12,7 +14,7 @@ class WildcardFilter
      */
     public function isApplicable(): bool
     {
-        return str_contains($this->expression, '*');
+        return Str::contains($this->expression, '*');
     }
 
     /**
