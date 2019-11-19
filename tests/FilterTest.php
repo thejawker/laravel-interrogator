@@ -251,7 +251,7 @@ class FilterTest extends TestCase
             ->request($request)
             ->get();
 
-        $this->assertCount(1, $posts);
+        $this->assertCount(2, $posts);
     }
 
     private function createPostWithUser()
@@ -293,16 +293,14 @@ class FilterTest extends TestCase
         ]);
     }
 
-    private
-    function setFilters($array)
+    private function setFilters($array)
     {
         return new Request([
             'filter' => $array
         ]);
     }
 
-    private
-    function setFilter($key, $value)
+    private function setFilter($key, $value)
     {
         return $this->setFilters([
             $key => $value

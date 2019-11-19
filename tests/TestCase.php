@@ -11,7 +11,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->migrate();

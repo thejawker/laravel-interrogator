@@ -3,6 +3,7 @@
 namespace TheJawker\Interrogator\Filter;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 abstract class AbstractFilter
     implements FilterInterface
@@ -72,7 +73,7 @@ abstract class AbstractFilter
 
     protected function where($column, $operator = null, $value = null)
     {
-        if (str_contains($column, '.')) {
+        if (Str::contains($column, '.')) {
             $relations = explode('.', $column);
             $where = array_pop($relations);
 

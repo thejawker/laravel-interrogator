@@ -18,13 +18,13 @@
     }
   ],
   "require": {
-    "php": "^7.0"
+    "php": "~7.2"
   },
   "require-dev": {
-    "mockery/mockery": "^0.9.5",
-    "orchestra/database": "~3.5.0",
-    "orchestra/testbench": "~3.5.0",
-    "phpunit/phpunit": "^6.0|^7.0"
+    "mockery/mockery": "^1.2.3",
+    "orchestra/database": "^4.0",
+    "orchestra/testbench": "^4.0",
+    "phpunit/phpunit": "^8.3"
   },
   "autoload": {
     "psr-4": {
