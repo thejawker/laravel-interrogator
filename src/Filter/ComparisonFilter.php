@@ -48,7 +48,7 @@ class ComparisonFilter
      */
     private function match(string $expression): array
     {
-        $regexOperators = implode(array_keys($this->operators), '|');
+        $regexOperators = implode('|', array_keys($this->operators));
 
         preg_match("/\[($regexOperators)\](.*)$/", $expression, $matches);
 
