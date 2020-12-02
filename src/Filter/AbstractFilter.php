@@ -30,13 +30,6 @@ abstract class AbstractFilter
     public $expression;
 
     /**
-     * The relation on wi
-     *
-     * @var string
-     */
-    public $nestedRelation;
-
-    /**
      * Instantiates the Filter.
      *
      * @param Builder $builder

@@ -95,6 +95,23 @@ class FilterTest extends TestCase
     }
 
     /** @test */
+    public function and_works_with_exact_matches_as_well()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'name' => 'Piet Jensson',
+            'color' => '[and]blue',
+        ]);
+
+        $users = interrogate(User::query())
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+    }
+
+    /** @test */
     public function filters_can_be_allowed()
     {
         $this->expectException(HttpException::class);
@@ -271,24 +288,28 @@ class FilterTest extends TestCase
             'name' => 'Aaron Fritsen',
             'email' => 'z@z.com',
             'value' => 25,
+            'color' => 'blue',
             'verified_at' => now()
         ]);
         UserFactory::create([
             'name' => 'Piet Jensson',
             'email' => 'g@g.com',
             'value' => 50,
+            'color' => 'blue',
             'verified_at' => null
         ]);
         UserFactory::create([
             'name' => 'Zara Gulf',
             'email' => 'a@a.com',
             'value' => 100,
+            'color' => 'yellow',
             'verified_at' => now()
         ]);
         UserFactory::create([
             'name' => 'John Thombson',
             'email' => 'e@e.com',
             'value' => 100,
+            'color' => 'orange',
             'verified_at' => null
         ]);
     }

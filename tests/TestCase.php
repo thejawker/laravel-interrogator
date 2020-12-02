@@ -23,6 +23,7 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('email')->unique();
+            $table->string('color')->nullable();
             $table->integer('value');
             $table->dateTime('verified_at')->nullable();
             $table->timestamps();

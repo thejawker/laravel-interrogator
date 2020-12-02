@@ -23,6 +23,10 @@ class EqualsFilter
      */
     public function apply(string $column, string $expression)
     {
-        $this->where($column, $expression);
+        if (is_string($expression)) {
+            $this->where($column, 'like', $this->expression);
+        } else {
+            $this->where($column, '=', $expression);
+        }
     }
 }
