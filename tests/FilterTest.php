@@ -95,13 +95,30 @@ class FilterTest extends TestCase
     }
 
     /** @test */
-    public function and_works_with_exact_matches_as_well()
+    public function and_works_with_exact_matches()
     {
         $this->createUsers();
 
         $request = $this->setFilters([
             'name' => 'Piet Jensson',
             'color' => '[and]blue',
+        ]);
+
+        $users = interrogate(User::query())
+            ->request($request)
+            ->get();
+
+        $this->assertCount(1, $users);
+    }
+
+    /** @test */
+    public function and_works_with_wildcard_matches()
+    {
+        $this->createUsers();
+
+        $request = $this->setFilters([
+            'name' => 'Piet Jensson',
+            'color' => '[and]*lu*',
         ]);
 
         $users = interrogate(User::query())

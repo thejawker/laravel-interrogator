@@ -25,6 +25,6 @@ class WildcardFilter
      */
     public function apply(string $column, string $expression)
     {
-        $this->where($column, 'like', str_replace('*', '%', $expression));
+        $this->where($column, 'like', str_replace('*', '%', $this->expression));
     }
 }
